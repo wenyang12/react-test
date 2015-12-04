@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>表单自定义组件</title>
+</head>
+<body>
+<script src="build/react.js"></script>
+<script src="build/JSXTransformer.js"></script>
+<script type="text/jsx">
+    //不可控
+    /*var Radio = React.createClass({
+        getInitialState: function() {
+            return {
+                value:this.props.defaultValue
+            }
+        },
+        handleChange: function(event) {
+            if(this.props.onChange) {
+                this.props.onChange(event);
+            }
+            this.setState({value: event.target.value});
+        },
+        render: function () {
+            var children ={};
+            var value = this.props.value || this.state.value;
+            React.Children.forEach(this.props.children, function(child,i){
+                var label = <label>
+                        <input type="radio" name={this.props.name} value={child.props.value} checked={child.props.value == value} onChange={this.handleChange} />
+                        {child.props.children}
+                        <br/>
+                </label>;
+                children['label'+i] = label;
+            }.bind(this));
+            return <span>{children}</span>
+
+        }
+    });
+    var MyForm = React.createClass({
+        submitHandle: function (event) {
+            event.preventDefault();
+            alert(this.refs.radio.state.value);
+        },
+        render: function () {
+            return <form onSubmit={this.submitHandle}>
+                    <Radio ref="radio" name="my_radio" defaultValue="B">
+                        <option value="A">First option</option>
+                        <option value="B">Second option</option>
+                        <option value="C">Third option</option>
+                    </Radio>
+                    <button type="submit">Speak</button>
+            </form>;
+        }
+    });*/
+
+    //可控
+    var Radio = React.createClass({
+        getInitialState: function() {
+            return {
+                value:this.props.defaultValue
+            }
+        },
+        handleChange: function(event) {
+            if(this.props.onChange) {
+                this.props.onChange(event);
+            }
+            this.setState({value: event.target.value});
+        },
+        render: function () {
+            var children ={};
+            var value = this.props.defaultValue || this.state.value;
+            React.Children.forEach(this.props.children, function(child,i){
+                var label = <label>
+                    <input type="radio" name={this.props.name} value={child.props.value} checked={child.props.value == value} onChange={this.handleChange} />
+                        {child.props.children}
+                    <br/>
+                </label>;
+                children['label'+i] = label;
+            }.bind(this));
+            return <span>{children}</span>
+
+        }
+    });
+    var MyForm = React.createClass({
+        getInitialState: function() {
+          return {my_radio: "B"}
+        },
+        handleChange: function(event) {
+            this.setState({
+                my_radio: event.target.value
+            });
+        },
+        submitHandle: function (event) {
+            event.preventDefault();
+            alert(this.state.my_radio);
+        },
+        render: function () {
+            return <form onSubmit={this.submitHandle}>
+                <Radio ref="radio" name="my_radio" defaultValue={this.state.my_radio} onChange={this.handleChange}>
+                    <option value="A">First option</option>
+                    <option value="B">Second option</option>
+                    <option value="C">Third option</option>
+                </Radio>
+                <button type="submit">Speak</button>
+            </form>;
+        }
+    });
+    React.render(<MyForm></MyForm>, document.body);
+</script>
+</body>
+</html>

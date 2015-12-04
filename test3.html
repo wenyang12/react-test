@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script src="build/react.js"></script>
+<script src="build/JSXTransformer.js"></script>
+<script type="text/jsx">
+    var HelloWorld = React.createClass({
+        getInitialState: function() {
+            return{password:''}
+        },
+        handleKeyPress: function(event) {
+            this.setState({
+                password: this.state.password + event.which
+            });
+            console.log(this.state.password);
+        },
+        handleChange: function(event) {
+            event.target.value = '';
+        },
+        render: function() {
+            return <p>
+                    <input onKeyPress={this.handleKeyPress} onChange={this.handleChange} placeholder="输入123会显示通过"></input>
+                    <span style={{'display': this.state.password.indexOf('495051') >=0 ? 'inline':'none'}}>通过</span>
+            </p>
+        }
+    });
+    React.render(<HelloWorld></HelloWorld>, document.body);
+</script>
+</body>
+</html>

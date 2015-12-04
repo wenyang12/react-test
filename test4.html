@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>组件嵌套</title>
+</head>
+<body>
+<script src="build/react.js"></script>
+<script src="build/JSXTransformer.js"></script>
+<script type="text/jsx">
+    // 创建一个选择性别的子组件
+    var GenderSelect = React.createClass({
+        render: function () {
+            return <select onChange={this.props.handleSelect}>
+                    <option value="0">男</option>
+                    <option value="1">女</option>
+            </select>
+        }
+    });
+    //创建一个父组件
+    var SignFrom = React.createClass({
+        getInitialState: function() {//初始化状态
+            return {
+                name: '',
+                password: '',
+                gender: ''
+            }
+
+        },
+        handleChange: function(name,event) {
+            var newState = {};
+            newState[name] = event.target.value;
+            this.setState(newState);
+        },
+        handleSelect: function(event) {
+            this.setState({gender: event.target.value});
+
+        },
+        render : function() {
+            //把处理函数通过属性来传递给子组件，组件拖过 委托处理函数 来让父组件更新状态
+            console.log(this.state);
+            return <div>
+                <input type="text" onChange={this.handleChange.bind(this,'name')} />
+                <input type="text" onChange={this.handleChange.bind(this,'password')} />
+                    <GenderSelect handleSelect={this.handleSelect} ></GenderSelect>
+            </div>
+        }
+    });
+    React.render(<SignFrom></SignFrom>, document.body);
+</script>
+</body>
+</html>

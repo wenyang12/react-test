@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>mixin</title>
+</head>
+<body>
+<script src="build/react-with-addons.js"></script>
+<script src="build/JSXTransformer.js"></script>
+<script type="text/jsx">
+    //mixin是横向抽离出复用的代码
+    /*var BindingMixin = {
+        handleChange: function(key) {
+            var that = this;
+            return function(event) {
+                var newState = {};
+                newState[key] = event.target.value;
+                that.setState(newState);
+            };
+        }
+    };
+    var BindingExample = React.createClass({
+        mixins:[BindingMixin],
+        getInitialState: function() {
+            return{
+                name:'',
+                password: ''
+            }
+        },
+        render: function() {
+          return <div>
+                  <input type="text" onChange={this.handleChange('name')} />
+                  <input type="text" onChange={this.handleChange('password')} />
+                  <p>{this.state.name}</p>
+                  <p>{this.state.password}</p>
+          </div>
+        }
+    });*/
+
+    var BindingExample = React.createClass({
+        mixins:[React.addons.LinkedStateMixin],
+        getInitialState: function() {
+            return{
+                name:'',
+                password: ''
+            }
+        },
+        render: function() {
+            return <div>
+                <input type="text" valueLink={this.linkState('name')} />
+                <input type="text" valueLink={this.linkState('password')}/>
+                <p>{this.state.name}</p>
+                <p>{this.state.password}</p>
+            </div>
+        }
+    });
+    React.render(<BindingExample></BindingExample>, document.body);
+</script>
+</body>
+</html>

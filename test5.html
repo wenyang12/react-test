@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>不可控组件和可控组件</title>
+</head>
+<body>
+<script src="build/react.js"></script>
+<script src="build/JSXTransformer.js"></script>
+<script type="text/jsx">
+    /*//不可控组件
+    var MyForm = React.createClass({
+        handleSubmit: function(event) {
+            event.preventDefault();
+            var helloTo = React.findDOMNode(this.refs.helloTo).value;// 获取value值
+            console.log(helloTo);
+        },
+        render: function() {
+            return <form onSubmit={this.handleSubmit}>
+                    <input type="text" defaultValue="Hello World!" ref="helloTo"  />
+                    <button type="submit">提交</button>
+            </form>
+        }
+    });*/
+    //可控组件
+    var MyForm = React.createClass({
+        getInitialState: function() {
+            return {
+                value: 'Hello World'
+            }
+        },
+        handleSubmit: function(event) {
+            event.preventDefault();
+            var helloTo = this.state.value;
+            console.log(helloTo);
+        },
+        handleChange: function(event) {
+            this.setState({
+                    value: event.target.value
+                    }
+            )
+        },
+        render: function() {
+            return <form onSubmit={this.handleSubmit}>
+                <input type="text" defaultValue={this.state.value} onChange={this.handleChange}  />
+                <button type="submit">提交</button>
+            </form>
+        }
+    });
+    React.render(<MyForm></MyForm>, document.body);
+</script>
+</body>
+</html>
