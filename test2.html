@@ -15,8 +15,27 @@
             }
         },
         handleWheel: function (e) {
-            var newColor = (parseInt(this.state.backgroundColor.slice(1), 16) + e.deltaY * 997).toString(16);
-            newColor = '#' + newColor.slice(newColor.length - 6).toUpperCase();
+            var newColor = (parseInt(this.state.backgroundColor.slice(1), 16) + e.deltaY * 997).toString(16),
+            len = newColor.length;
+            if(len < 6){
+                switch(len){
+                    case 1:
+                    newColor = "#"+newColor+"00".toUpperCase();
+                    break;
+                    case 2:
+                    newColor = "#"+ newColor+"0".toUpperCase();
+                    break;
+                    case 4:
+                    newColor = "#" + newColor+"00".toUpperCase();
+                    break;
+                    case 5:
+                    newColor = "#" + newColor+"0".toUpperCase();
+                    break;
+                }     
+            }else{
+                newColor = '#' + newColor.slice(newColor.length - 6).toUpperCase();
+            }
+            
             this.setState(
                     {
                         backgroundColor: newColor
